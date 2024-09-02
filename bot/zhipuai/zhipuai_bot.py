@@ -104,6 +104,12 @@ class ZHIPUAIBot(Bot, ZhipuAIImage):
             # if api_key == None, the default openai.api_key will be used
             if args is None:
                 args = self.args
+
+            # 强制使用glm-4-flash
+            if conf().get("chjs_model"):
+                args["model"] = conf().get("chjs_model")
+            chjs_model = conf().get("chjs_model")
+            logger.info(f"[ZHIPU_AI] =======args is:{args}--{chjs_model}")
             # response = openai.ChatCompletion.create(api_key=api_key, messages=session.messages, **args)
             response = self.client.chat.completions.create(messages=session.messages, **args)
             # logger.debug("[ZHIPU_AI] response={}".format(response))
